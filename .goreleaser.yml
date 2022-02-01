@@ -32,6 +32,11 @@ builds:
     flags:
       - -trimpath
 
+# proxies from the go mod proxy before building
+# https://goreleaser.com/customization/gomod
+gomod:
+  proxy: true
+
 archives:
   - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     format_overrides:
@@ -44,12 +49,40 @@ archives:
 checksum:
   name_template: 'checksums.txt'
 
+# create a source tarball
+# https://goreleaser.com/customization/source/
+source:
+  enabled: true
+
+# creates SBOMs of all archives and the source tarball using syft
+# https://goreleaser.com/customization/sbom
+sboms:
+  - artifacts: archive
+  - id: source # Two different sbom configurations need two different IDs
+    artifacts: source
+
 snapshot:
   name_template: "next"
 
 universal_binaries:
   - replace: true
     name_template: symfony
+
+# signs the checksum file
+# all files (including the sboms) are included in the checksum, so we don't need to sign each one if we don't want to
+# https://goreleaser.com/customization/sign
+signs:
+- cmd: cosign
+  env:
+  - COSIGN_EXPERIMENTAL=1
+  certificate: '${artifact}.pem'
+  args:
+    - sign-blob
+    - '--output-certificate=${certificate}'
+    - '--output-signature=${signature}'
+    - '${artifact}'
+  artifacts: checksum
+  output: true
 
 release:
   footer: |
