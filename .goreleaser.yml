@@ -34,8 +34,8 @@ builds:
 
 # proxies from the go mod proxy before building
 # https://goreleaser.com/customization/gomod
-gomod:
-  proxy: true
+#gomod:
+#  proxy: true
 
 archives:
   - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
