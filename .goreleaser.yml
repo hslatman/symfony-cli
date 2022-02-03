@@ -56,10 +56,10 @@ source:
 
 # creates SBOMs of all archives and the source tarball using syft
 # https://goreleaser.com/customization/sbom
-sboms:
-  - artifacts: archive
-  - id: source # Two different sbom configurations need two different IDs
-    artifacts: source
+#sboms:
+#  - artifacts: archive
+#  - id: source # Two different sbom configurations need two different IDs
+#    artifacts: source
 
 snapshot:
   name_template: "next"
@@ -81,7 +81,7 @@ signs:
     - '--output-certificate=${certificate}'
     - '--output-signature=${signature}'
     - '${artifact}'
-  artifacts: checksum
+  artifacts: all
   output: true
 
 release:

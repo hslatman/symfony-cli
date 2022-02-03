@@ -50,9 +50,6 @@ jobs:
                 name: Set up cosign
                 uses: sigstore/cosign-installer@v2.0.0 # TODO: fixed commit?
             -
-                name: Set up syft
-                uses: anchore/sbom-action/download-syft@v0.6.0 # TODO: fixed commit?
-            -
                 name: Run GoReleaser
                 uses: goreleaser/goreleaser-action@v2
                 with:
