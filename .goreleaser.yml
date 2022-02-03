@@ -54,13 +54,6 @@ checksum:
 source:
   enabled: true
 
-# creates SBOMs of all archives and the source tarball using syft
-# https://goreleaser.com/customization/sbom
-#sboms:
-#  - artifacts: archive
-#  - id: source # Two different sbom configurations need two different IDs
-#    artifacts: source
-
 snapshot:
   name_template: "next"
 
@@ -68,8 +61,7 @@ universal_binaries:
   - replace: true
     name_template: symfony
 
-# signs the checksum file
-# all files (including the sboms) are included in the checksum, so we don't need to sign each one if we don't want to
+# sign all artifacts
 # https://goreleaser.com/customization/sign
 signs:
 - cmd: cosign
